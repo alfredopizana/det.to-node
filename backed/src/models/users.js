@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const postSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     
 })
 //
-const model = mongoose.model('users', mentorSchema)
+const model = mongoose.model('users', userSchema)
 module.exports = model

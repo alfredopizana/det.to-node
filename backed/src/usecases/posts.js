@@ -1,4 +1,4 @@
-const Cell = require("")
+const Post = require("../models/posts")
 
 /*
 **Post**

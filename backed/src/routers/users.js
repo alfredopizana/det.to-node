@@ -1,6 +1,5 @@
 const express = require("express")
 const router = express.Router()
-const koders =  require("../usecases/users")
 router.get("/",async (request,response)=>{
     try{
         //Code here

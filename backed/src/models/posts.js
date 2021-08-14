@@ -4,5 +4,5 @@ const postSchema = new mongoose.Schema({
     
 })
 //
-const model = mongoose.model('posts', mentorSchema)
+const model = mongoose.model('posts', postSchema)
 module.exports = model

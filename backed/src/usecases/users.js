@@ -1,3 +1,4 @@
+const User = require("../models/users")
 /*
 **Users**
 
@@ -12,3 +13,7 @@ Update User
 Delete User by Id
 
 */
+
+module.exports = {
+
+}
