@@ -1,9 +1,38 @@
 const express = require("express")
 const router = express.Router()
-const koders =  require("../usecases/posts")
+const posts =  require("../usecases/posts")
 router.get("/",async (request,response)=>{
     try{
-        //Code here
+        const allPosts = await posts.getAll()
+        response.json({
+            sucess: true,
+            message: "All Posts",
+            data: {
+                posts: allPosts
+            }
+        })
+    }
+    catch(error){
+        response.status(400)
+        response.json({
+            sucess: false,
+            message: "",
+            error: error.message
+        })
+    }
+})
+//Get All Post By User Id
+router.get("/userId/:id",async (request,response)=>{
+    try{
+        const {id} = request.params
+        const postsByUserId = await posts.getAllByUserId(id)
+        response.json({
+            succes: true,
+            message: "Posts by UserId",
+            data: {
+                posts: postsByUserId
+            }
+        })
     }
     catch(error){
         response.status(400)

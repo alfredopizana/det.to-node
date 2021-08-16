@@ -24,7 +24,14 @@ Delete Post by Id
 Add Comment by Post Id
 
 */
-
+//Get All Posts
+function getAll(){
+    return Post.find();
+}
+function getAllByUserId({userId}){
+    return Post.find({userId})
+}
 module.exports = {
-
+    getAll,
+    getAllByUserId
 }
