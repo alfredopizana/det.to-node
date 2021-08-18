@@ -43,6 +43,30 @@ router.get("/userId/:id",async (request,response)=>{
         })
     }
 })
+// get posts by id
+router.get('/:id', async (request,response)=>{
+    try{
+        const { id } = request.params
+        const postById = await posts.getById(id)
+        response.json({ 
+            success: true,
+            message: 'Post Found',
+            data: {
+                posts: postById            
+            }
+        })
+
+    }catch(error){
+        response.status(400)
+        response.json({ 
+            success: false,
+            message: 'Error at found post',
+            error:  error.message
+            
+        })
+    }    
+})
+
 router.post("/",async (request,response)=>{
     try {
         //Code here
@@ -68,16 +92,28 @@ router.delete("/:id", async (request,response)=>{
         })
     }
 })
-router.patch("/:id", async(request,response)=>{
+
+//update post by id
+router.patch('/:id', async (request, response)=>{
     try{
-        //Code here
-    } catch(error){
+        const updatedPost = await posts.updateById(request.params.id, request.body)
+        response.json({ 
+            success: true,
+            message: 'Post updated ',
+            data: {
+                koders: updatedPost
+            }
+        })
+    } catch (error) {
         response.status(400)
-        response.json({
-            sucess: false,
-            message: "",
-            error: error.message
+        response.json({ 
+            success: false,
+            message: 'Error at post update',
+            error:  error.message
+            
         })
     }
 })
+
+
 module.exports = router

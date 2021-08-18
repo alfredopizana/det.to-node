@@ -12,18 +12,9 @@ function getAll(){
 Get All Post by Tag (Opcional)
 
 Get All Post By User Id (Opcional)
-
-Get Post By Id
-
-Create Post 
-
-Update Post by Id
-
-Delete Post by Id
-
-Add Comment by Post Id
-
 */
+
+
 //Get All Posts
 function getAll(){
     return Post.find();
@@ -31,6 +22,27 @@ function getAll(){
 function getAllByUserId({userId}){
     return Post.find({userId})
 }
+
+// Get Post By Id
+
+function getById(id){
+    return Posts.findById(id)
+}
+
+
+// Create Post 
+
+// Update Post by Id
+
+function updateById(id,dataToUpdate){
+    return Posts.findByIdAndUpdate(id,dataToUpdate);
+}
+
+// Delete Post by Id
+
+// Add Comment by Post Id
+
+
 module.exports = {
     getAll,
     getAllByUserId
