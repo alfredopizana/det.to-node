@@ -14,6 +14,24 @@ Delete User by Id
 
 */
 
-module.exports = {
+//Get All User
+function getAll(){
+    return User.find()
+}
 
+//Create User
+function create(name, lastName, profileImage, githubUsername, websiteUrl, email, password){
+    return User.create({name, lastName, profileImage, githubUsername, websiteUrl, email, password})
+}
+
+//Update User
+function updateById(id, newData){
+    return User.findByIdAndUpdate(id, newData)
+}
+
+
+module.exports = {
+    getAll,
+    create,
+    updateById
 }
