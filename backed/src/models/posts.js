@@ -21,8 +21,8 @@ const postSchema = new mongoose.Schema({
     comments: [{
         type: String,
         user:{
-            type: ObjectId,
-            ref: 'users'
+            type: "ObjectId",
+            ref: "comments"
         }
     }],
     likesCount:{
@@ -39,7 +39,7 @@ const postSchema = new mongoose.Schema({
         required: true
     },
     userId:{
-        type: ObjectId,
+        type: "ObjectId",
         ref: 'users'
     }
 })
