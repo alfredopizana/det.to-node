@@ -43,7 +43,7 @@ router.get("/userId/:id",async (request,response)=>{
         })
     }
 })
-// get posts by id
+// Get posts by id
 router.get('/:id', async (request,response)=>{
     try{
         const { id } = request.params
@@ -66,33 +66,48 @@ router.get('/:id', async (request,response)=>{
         })
     }    
 })
-
+//Post
 router.post("/",async (request,response)=>{
     try {
-        //Code here
+        const somePost = request.body
+        const posted = await posts.createPost(somePost)
+        response.json({ 
+            success: true,
+            message: 'Post successfully created',
+            data: {
+                posts: posted            
+            }
+        })
     } catch (error){
         response.status(400)
         response.json({
             sucess: false,
-            message: "",
+            message: 'Error at creating post',
             error: error.message
         })
     }
 })
+// Delete
 router.delete("/:id", async (request,response)=>{
     try{
-        //Code here
-
+        const {id} = request.params
+        const deletePost = await posts.deleteById(id)
+        response.json({ 
+            success: true,
+            message: 'The post has been deleted',
+            data: {
+                posts: deletePost            
+            }
+        })
     } catch(error){
         response.status(400)
         response.json({
             sucess: false,
-            message: "",
+            message: 'Error, try again',
             error: error.message
         })
     }
 })
-
 //update post by id
 router.patch('/:id', async (request, response)=>{
     try{
@@ -108,7 +123,7 @@ router.patch('/:id', async (request, response)=>{
         response.status(400)
         response.json({ 
             success: false,
-            message: 'Error at post update',
+            message: 'Error at updating post',
             error:  error.message
             
         })
