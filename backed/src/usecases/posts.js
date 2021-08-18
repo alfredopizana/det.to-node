@@ -15,6 +15,14 @@ Get All Post By User Id (Opcional)
 */
 
 
+//Get All Posts
+function getAll(){
+    return Post.find();
+}
+function getAllByUserId({userId}){
+    return Post.find({userId})
+}
+
 // Get Post By Id
 
 function getById(id){
@@ -34,7 +42,8 @@ function updateById(id,dataToUpdate){
 
 // Add Comment by Post Id
 
+
 module.exports = {
-    getById,
-    updateById
+    getAll,
+    getAllByUserId
 }
