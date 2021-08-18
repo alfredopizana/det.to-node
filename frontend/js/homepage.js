@@ -1,33 +1,44 @@
 const database = firebase.database()
 
+let getPosts =() =>{
+    let url = "http://localhost:8080/posts"
+    $.ajax({
+        method: "GET",
+        url: url,
+        success: response => {
+            console.log(response)
+            generatePostViews(response.data.posts)
+        },
+        error: error => {
+            console.log("hay un error ")
+            console.log(error)
+        },
+        async: true
+    })
+}
 
-
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-//var user = randomUsers[getRandomInt(randomUsers.length)]
-
-database.ref("/articles").on("value",snapshot=>{
-    const rawDataOfArticles = snapshot.val()
+const generatePostViews = (rawDataOfArticles)=>{
     
-    const sortedArticles = rawDataOfArticles.map((value,index)=>{
-        return {tempArticleIndex:index,...value};
-    }).sort(function(a,b){
+    const sortedArticles = 
+    rawDataOfArticles.sort(function(a,b){
         // Turn your strings into dates, and then subtract them
         // to get a value that is either negative, positive, or zero.
         //return new Date(a.published_at).getTime() > new Date(b.published_at).getTime() ;
-        new Date(a.published_at).getTime() - new Date(b.published_at).getTime() 
+        new Date(a.created).getTime() - new Date(b.created).getTime() 
       });
-
+    
+      
     tabFilters = [
         {
             domComponent: $("#nav-feed"),
             filterFunction: (article) =>{
-                return article.comments_count > 0;
+                return article.commentsCount > 0;
             }
         },
         {
             domComponent: $("#nav-week"),
             filterFunction: (article) =>{
-                let publishedDate = new Date(article.published_at)
+                let publishedDate = new Date(article.created)
                 let currentDate = new Date(new Date() - 7);
                 let evaluation =  publishedDate.getTime() < currentDate.getTime()
                 return evaluation;
@@ -36,7 +47,7 @@ database.ref("/articles").on("value",snapshot=>{
         {
             domComponent: $("#nav-month"),
             filterFunction: (article) =>{
-                let publishedDate = new Date(article.published_at)
+                let publishedDate = new Date(article.created)
                 let currentDate = new Date(new Date() - 30);
                 let evaluation =  publishedDate.getTime() < currentDate.getTime()
                 return evaluation;
@@ -45,7 +56,7 @@ database.ref("/articles").on("value",snapshot=>{
         {
             domComponent: $("#nav-year"),
             filterFunction: (article) =>{
-                let publishedDate = new Date(article.published_at)
+                let publishedDate = new Date(article.created)
                 let currentDate = new Date(new Date() - 365);
                 let evaluation =  publishedDate.getTime() < currentDate.getTime()
                 return evaluation;
@@ -65,6 +76,8 @@ database.ref("/articles").on("value",snapshot=>{
         },
         //nav-month
     ]
+    
+   
     for (filterIndex in tabFilters){
         var tabContainertabFilters = tabFilters[filterIndex].domComponent
         let count = 0;
@@ -75,30 +88,45 @@ database.ref("/articles").on("value",snapshot=>{
             count++
         }
     }
+
+/*
+        for(index  in rawData){
+            let template = createArticleTemplate(rawData[index], index == 0)
+            tabContainertabFilters.prepend(template)
+            count++
+        }*/
+    
+}
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+//var user = randomUsers[getRandomInt(randomUsers.length)]
+/*
+database.ref("/articles").on("value",snapshot=>{
+    const rawDataOfArticles = snapshot.val()
+    
 })
+*/
 
 
-
-const createArticleTemplate = (article,displayFeaturedImage) => {
-    let {comments_count=0, cover_image="", description="", published_at="" ,devToId = article['id'] ,tag_list=[] ,tags="" ,title="" ,user={}, tempArticleIndex } = article
+const createArticleTemplate = (post,displayFeaturedImage) => {
+    let {commentsCount=0, featuredImage="", summary="", created="" ,_id ,tags=[] ,title="" ,user={},  } = post
     let articleTemplate = `
     <div class="card br-post post-card featured-post-card mb-3">
-        ${displayFeaturedImage ? `<img src="${cover_image}" class="card-img-top" alt="...">`:''}
+        ${displayFeaturedImage ? `<img src="${featuredImage}" class="card-img-top" alt="...">`:''}
         <div class="card-body">
             <div class="d-flex c-header">
-                <img src="${user.profile_image_90}" alt="" class="br-100">
+                <img src="${user.profileImage}" alt="" class="br-100">
                 <div class="d-flex c-name">
-                    <h6 class="nickname mb-0">${user.name}</h6>
-                    <p>${new Date(published_at)}</p>
+                    <h6 class="nickname mb-0">${user.firstName + user.lastName}</h6>
+                    <p>${new Date(created)}</p>
                 </div>
             </div>
             <div class="card-content pl-5 pt-2">
-                <a href="postDetail.html?articleId=${tempArticleIndex}&devToId=${devToId}" class="post-list">
+                <a href="postDetail.html?articleId=${_id}&devToId=${_id}" class="post-list">
                     <h4 class="card-title">${title}</h4>
                 </a>
                 <div class="d-flex h-order">
                     <nav class="card-post-tags">
-                        ${ tag_list.map(text => `<a>#${text}</a>`).join("") }
+                        ${ tags.map(text => `<a>#${text}</a>`).join("") }
                     </nav>
                 </div>
                 <div class=" d-flex read">
@@ -127,3 +155,4 @@ const createArticleTemplate = (article,displayFeaturedImage) => {
     `
     return articleTemplate
 }
+getPosts()
