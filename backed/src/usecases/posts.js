@@ -26,24 +26,43 @@ function getAllByUserId({userId}){
 // Get Post By Id
 
 function getById(id){
-    return Posts.findById(id)
+    return Post.findById(id)
 }
 
 
 // Create Post 
 
+function createPost(post){
+
+    let { title, content, featuredImage , tags , comments , likesCount , likes ,
+           summary, userId }  = post
+
+           likesCount = 0
+           comments =[]
+
+    return Post.create({ title, content, featuredImage , tags , comments , likesCount , likes ,
+        summary, userId  })
+}
+
 // Update Post by Id
 
 function updateById(id,dataToUpdate){
-    return Posts.findByIdAndUpdate(id,dataToUpdate);
+    return Post.findByIdAndUpdate(id,dataToUpdate);
 }
 
 // Delete Post by Id
 
+function deleteById(id){
+    return Post.findByIdAndDelete(id)
+}
 // Add Comment by Post Id
 
 
 module.exports = {
     getAll,
-    getAllByUserId
+    getAllByUserId,
+    getById,
+    updateById,
+    createPost,
+    deleteById
 }
