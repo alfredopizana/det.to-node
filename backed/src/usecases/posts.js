@@ -35,7 +35,7 @@ function getById(id){
 function createPost(post){
 
     let { title, content, featuredImage , tags , comments , likesCount , likes ,
-           summary, userId, created }  = post
+           summary, userId }  = post
            const created = Date.now()
            likesCount = 0
            comments =[]
