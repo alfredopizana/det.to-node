@@ -35,13 +35,13 @@ function getById(id){
 function createPost(post){
 
     let { title, content, featuredImage , tags , comments , likesCount , likes ,
-           summary, userId }  = post
-
+           summary, userId, created }  = post
+           const created = Date.now()
            likesCount = 0
            comments =[]
 
     return Post.create({ title, content, featuredImage , tags , comments , likesCount , likes ,
-        summary, userId  })
+        summary, userId, created  })
 }
 
 // Update Post by Id
