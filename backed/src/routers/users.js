@@ -1,5 +1,6 @@
 const express = require("express")
-const users = require('../models/users')
+const users = require('../usecases/users')
+//const users = require('../models/users')
 const router = express.Router()
 
 router.get("/",async (request,response)=>{
@@ -26,6 +27,8 @@ router.post("/",async (request,response)=>{
     try {
         const userData = request.body
         const userCreated = await users.create(userData)
+        //console.log(userData, typeof userData)
+        //console.log(userCreated)
         response.json({
             success: true,
             message: 'User Created',
@@ -38,14 +41,22 @@ router.post("/",async (request,response)=>{
         response.status(400)
         response.json({
             sucess: false,
-            message: "",
+            message: 'Error at create User',
             error: error.message
         })
     }
 })
 router.delete("/:id", async (request,response)=>{
     try{
-        //Code here
+        const { id } = request.params
+        const userDeleted = await users.deleteById(id)
+        response.json({
+            success: true,
+            message: 'User Deleted',
+            data:{
+                users: userDeleted
+            }
+        })
 
     } catch(error){
         response.status(400)
@@ -60,8 +71,8 @@ router.patch("/:id", async(request,response)=>{
     try{
         const { id } = request.params
         const { body: userData } = request
-
-        const userUpdated = users.updateById( id, userData)
+        console.log(userData)
+        const userUpdated = await users.updateById( id, userData)
         response.json({
             success: true,
             message: 'User Updated',
@@ -73,7 +84,29 @@ router.patch("/:id", async(request,response)=>{
         response.status(400)
         response.json({
             sucess: false,
-            message: "",
+            message: 'Error at update User',
+            error: error.message
+        })
+    }
+})
+router.get("/:id",async (request,response)=>{
+    try{
+        const { id } = request.params
+        const getById = await users.getById(id)
+
+        response.json({
+            success: true,
+            message:"User get by Id",
+            data:{
+                users: getById
+            }
+        })
+    }
+    catch(error){
+        response.status(400)
+        response.json({
+            sucess: false,
+            message: "Error at get all koders",
             error: error.message
         })
     }
