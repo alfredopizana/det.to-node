@@ -1,4 +1,4 @@
-const User = require("../models/users")
+const User = require('../models/users')
 /*
 **Users**
 
@@ -20,8 +20,8 @@ function getAll(){
 }
 
 //Create User
-function create(name, lastName, profileImage, githubUsername, websiteUrl, email, password){
-    return User.create({name, lastName, profileImage, githubUsername, websiteUrl, email, password})
+function create(object){
+    return User.create(object)
 }
 
 //Update User
@@ -29,9 +29,21 @@ function updateById(id, newData){
     return User.findByIdAndUpdate(id, newData)
 }
 
+//Delete by Id
+
+function deleteById(id){
+    return User.findByIdAndDelete(id)
+}
+
+//Get User by Id
+function getById(id){
+    return User.findById(id)
+}
 
 module.exports = {
     getAll,
     create,
-    updateById
+    updateById,
+    deleteById,
+    getById
 }

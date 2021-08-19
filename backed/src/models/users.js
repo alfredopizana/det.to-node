@@ -16,9 +16,9 @@ const userSchema = new mongoose.Schema({
         trim: true
     },
     profileImage:{
-        type:String,
+        type: String,
         minLength: 2,
-        maxLength: 20,
+        maxLength: 50,
         required: true,
         trim: true
     },
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     websiteUrl:{
         type: String,
         minLength: 2,
-        maxLength: 20,
+        maxLength: 50,
         trim: true
     },
     email:{
